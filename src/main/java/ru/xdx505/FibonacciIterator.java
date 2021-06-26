@@ -11,9 +11,20 @@ public class FibonacciIterator implements Iterator<BigInteger> {
     public BigInteger next() {
         while (true) {
             final Pair current = pair.get();
-            if (pair.compareAndSet(current, new Pair(current)))
-            return current.first;
+            if (pair.compareAndSet(current, new Pair(current))) {
+                return current.first;
+            }
         }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return true;
+    }
+
+    @Override
+    public void remove() {
+        next();
     }
 
     private class Pair {
@@ -29,15 +40,5 @@ public class FibonacciIterator implements Iterator<BigInteger> {
             this.first = oldPair.second;
             this.second = oldPair.first.add(oldPair.second);
         }
-    }
-
-    @Override
-    public boolean hasNext() {
-        return true;
-    }
-
-    @Override
-    public void remove() {
-        next();
     }
 }
